@@ -1,0 +1,7 @@
+#cards-grid{
+    display: grid;
+    gap: 1rem;
+    width: 50%;
+    margin: auto;
+    justify-content: space-evenly;
+}

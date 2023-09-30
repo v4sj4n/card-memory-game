@@ -1,0 +1,14 @@
+.single-card {
+  cursor: pointer;
+  overflow: hidden;
+
+  & img {
+    width: 10rem;
+    height:auto;
+    transition: transform 0.5s ease-in-out;
+  }
+
+  & img:hover {
+    transform: scale(1.1);
+  }
+}
