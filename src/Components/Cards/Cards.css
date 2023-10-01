@@ -5,3 +5,11 @@
     margin: auto;
     justify-content: space-evenly;
 }
+
+.another-game{
+    border: none;
+    padding: 1rem 2rem;
+    background-color: #d3d3d3;
+    color: #1f1f1f;
+    border-radius: 0.5rem;
+}

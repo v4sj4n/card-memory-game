@@ -48,7 +48,7 @@ export default function App() {
                     <button onClick={() => setStartGame(true)}>Start game</button>
                 </div>
             ):
-            <Cards playersArrayGenerator={playerToPlayReturner} rows={rowsForGrid} cols={columnsForGrid}/>
+            <Cards playersArrayGenerator={playerToPlayReturner} rows={rowsForGrid} cols={columnsForGrid} newGame={() => setStartGame(false)}/>
             
             }
 
