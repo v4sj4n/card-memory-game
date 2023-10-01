@@ -8,7 +8,8 @@ export default function Cards(props) {
   const [gamePlayerArray, setGamePlayerArray] = useState(playersArrayGenerator);
   const [round, setRound] = useState(1)
   const [won, setWon] = useState(false)
-  const [lost, setLost] = useState(false);
+  const [lost, setLost] = useState(false)
+  const [twiceClickedPlayer, setTwiceClickedPlayer] = useState()
 
 
   let imgWidth;
@@ -39,6 +40,7 @@ export default function Cards(props) {
   const cardClickHandler = (player) => {
     if(player.clicked){
       setLost(true)
+      setTwiceClickedPlayer(player.name)
     }
     const newArray = gamePlayerArray.map((pl) => 
       pl.name === player.name ? {...pl, clicked: true} : pl)
@@ -86,7 +88,7 @@ export default function Cards(props) {
         </>
       ) : lost ? (
         <>
-          <p>You lost</p>
+          <p>You lost in round {round}, {twiceClickedPlayer} was clicked once</p>
           <button
             onClick={() => {
               setWon(false);
