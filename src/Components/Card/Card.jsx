@@ -6,6 +6,7 @@ export default function Card(props) {
       <img
         src={`/${cardImage}`}
         alt={name}
+        className="undraggable"
         style={{
           width: `${props.imgWidth}rem`,
         }}
