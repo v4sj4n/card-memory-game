@@ -14,7 +14,7 @@ export default function App() {
     const arrayToReturn = []
     let randomi = Math.floor(Math.random() * 761) + 1
     for (let i = randomi; i < randomi + (rowsForGrid * columnsForGrid); i++) {
-      await fetch(`https://pokeapi.co/api/v2/pokemon/${i + 1}`)
+      await fetch(`https://pokeapi.co/api/v2/pokemon/${i}`)
         .then((result) => result.json())
         .then((data) => {
           arrayToReturn.push({
