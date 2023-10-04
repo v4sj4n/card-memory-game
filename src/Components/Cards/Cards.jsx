@@ -89,12 +89,13 @@ export default function Cards(props) {
       ) : lost ? (
         <>
           <p>
-            You lost in round {round}, {twiceClickedPlayer} was clicked once
+            You lost in round {round}, {twiceClickedPlayer[0].toUpperCase()+twiceClickedPlayer.slice(1)} was clicked once
           </p>
           <button
             onClick={() => {
               setWon(false)
               props.newGame()
+              props.cardArrayCleaner()
             }}
             className="another-game"
           >
@@ -107,6 +108,7 @@ export default function Cards(props) {
           <button
             onClick={() => {
               setWon(false)
+              props.cardArrayCleaner()
               props.newGame()
             }}
             className="another-game"

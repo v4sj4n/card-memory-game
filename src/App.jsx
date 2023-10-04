@@ -12,9 +12,9 @@ export default function App() {
 
   const cardsFetcher = async () => {
     const arrayToReturn = []
-
-    for (let i = 0; i < rowsForGrid * columnsForGrid; i++) {
-      fetch(`https://pokeapi.co/api/v2/pokemon/${i + 1}`)
+    let randomi = Math.floor(Math.random() * 761) + 1
+    for (let i = randomi; i < randomi + (rowsForGrid * columnsForGrid); i++) {
+      await fetch(`https://pokeapi.co/api/v2/pokemon/${i + 1}`)
         .then((result) => result.json())
         .then((data) => {
           arrayToReturn.push({
@@ -28,12 +28,6 @@ export default function App() {
     }
     setCardsToPlay(arrayToReturn)
   }
-
-  useEffect(() => {
-    if (startGame) {
-      cardsFetcher()
-    }
-  }, [startGame])
 
   return (
     <>
@@ -70,19 +64,20 @@ export default function App() {
           <button
             onClick={() => {
               setStartGame(true)
+              cardsFetcher()
             }}
           >
             Start game
           </button>
         </div>
       ) : cardsToPlay.length > 0 ? (
-        // TODO: fix the rendering of the cards
-          <Cards
-            playersArrayGenerator={cardsToPlay}
-            rows={rowsForGrid}
-            cols={columnsForGrid}
-            newGame={() => setStartGame(false)}
-          />
+        <Cards
+          playersArrayGenerator={cardsToPlay}
+          rows={rowsForGrid}
+          cols={columnsForGrid}
+          newGame={() => setStartGame(false)}
+          cardArrayCleaner={() => setCardsToPlay([])}
+        />
       ) : (
         <p>Loading...</p>
       )}
