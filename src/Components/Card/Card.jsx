@@ -1,10 +1,10 @@
 import "./Card.css"
 export default function Card(props) {
-  const {name, cardImage} = props.player
+  const { name, cardImage } = props.player
   return (
     <div className="single-card" onClick={() => props.clickHandler()}>
       <img
-        src={`/${cardImage}`}
+        src={`${cardImage}`}
         alt={name}
         className="undraggable"
         style={{
@@ -12,5 +12,5 @@ export default function Card(props) {
         }}
       />
     </div>
-  );
+  )
 }

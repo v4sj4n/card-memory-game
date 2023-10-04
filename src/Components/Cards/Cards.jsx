@@ -1,34 +1,33 @@
 import "./Cards.css"
-import { useState, useEffect } from "react";
-import Card from "../Card/Card";
+import { useState, useEffect } from "react"
+import Card from "../Card/Card"
 
 export default function Cards(props) {
-  const { playersArrayGenerator, cols, rows } = props;
+  const { playersArrayGenerator, cols, rows } = props
 
-  const [gamePlayerArray, setGamePlayerArray] = useState(playersArrayGenerator);
+  const [gamePlayerArray, setGamePlayerArray] = useState(playersArrayGenerator)
   const [round, setRound] = useState(1)
   const [won, setWon] = useState(false)
   const [lost, setLost] = useState(false)
   const [twiceClickedPlayer, setTwiceClickedPlayer] = useState()
 
-
-  let imgWidth;
-  if(rows === 2){
+  let imgWidth
+  if (rows === 2) {
     imgWidth = 12
-  } else if(rows === 3){
+  } else if (rows === 3) {
     imgWidth = 8
   } else {
-    imgWidth = 6;
+    imgWidth = 6
   }
 
-  const arrayShuffler = (array) =>{
+  const arrayShuffler = (array) => {
     let shuffledArray = []
     let usedIndexes = []
 
     let i = 0
     while (i < array.length) {
       const RandNum = Math.floor(Math.random() * array.length)
-      if(!usedIndexes.includes(RandNum)){
+      if (!usedIndexes.includes(RandNum)) {
         shuffledArray.push(array[RandNum])
         usedIndexes.push(RandNum)
         i++
@@ -38,22 +37,23 @@ export default function Cards(props) {
   }
 
   const cardClickHandler = (player) => {
-    if(player.clicked){
+    if (player.clicked) {
       setLost(true)
       setTwiceClickedPlayer(player.name)
     }
-    const newArray = gamePlayerArray.map((pl) => 
-      pl.name === player.name ? {...pl, clicked: true} : pl)
-    
+    const newArray = gamePlayerArray.map((pl) =>
+      pl.name === player.name ? { ...pl, clicked: true } : pl
+    )
+
     setGamePlayerArray(arrayShuffler(newArray))
-    setRound((prevRound) => prevRound+1)
-  } 
+    setRound((prevRound) => prevRound + 1)
+  }
 
   useEffect(() => {
     if (gamePlayerArray.every((player) => player.clicked)) {
-      setWon(true);
+      setWon(true)
     }
-  }, [gamePlayerArray]);
+  }, [gamePlayerArray])
 
   return (
     <div>
@@ -88,11 +88,13 @@ export default function Cards(props) {
         </>
       ) : lost ? (
         <>
-          <p>You lost in round {round}, {twiceClickedPlayer} was clicked once</p>
+          <p>
+            You lost in round {round}, {twiceClickedPlayer} was clicked once
+          </p>
           <button
             onClick={() => {
-              setWon(false);
-              props.newGame();
+              setWon(false)
+              props.newGame()
             }}
             className="another-game"
           >
@@ -104,8 +106,8 @@ export default function Cards(props) {
           <p>You won</p>
           <button
             onClick={() => {
-              setWon(false);
-              props.newGame();
+              setWon(false)
+              props.newGame()
             }}
             className="another-game"
           >
@@ -114,5 +116,5 @@ export default function Cards(props) {
         </>
       )}
     </div>
-  );
+  )
 }
