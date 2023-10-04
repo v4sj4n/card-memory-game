@@ -1,6 +1,6 @@
 import "./Card.css"
 export default function Card(props) {
-  const { name, cardImage } = props.player
+  const { name, cardImage } = props.card
   return (
     <div className="single-card" onClick={() => props.clickHandler()}>
       <img

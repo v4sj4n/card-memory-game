@@ -3,13 +3,13 @@ import { useState, useEffect } from "react"
 import Card from "../Card/Card"
 
 export default function Cards(props) {
-  const { playersArrayGenerator, cols, rows } = props
+  const { cards, cols, rows } = props
 
-  const [gamePlayerArray, setGamePlayerArray] = useState(playersArrayGenerator)
+  const [gameCardsArray, setGameCardsArray] = useState(cards)
   const [round, setRound] = useState(1)
   const [won, setWon] = useState(false)
   const [lost, setLost] = useState(false)
-  const [twiceClickedPlayer, setTwiceClickedPlayer] = useState()
+  const [twiceClickedCard, setTwiceClickedCard] = useState()
 
   let imgWidth
   if (rows === 2) {
@@ -36,24 +36,24 @@ export default function Cards(props) {
     return shuffledArray
   }
 
-  const cardClickHandler = (player) => {
-    if (player.clicked) {
+  const cardClickHandler = (card) => {
+    if (card.clicked) {
       setLost(true)
-      setTwiceClickedPlayer(player.name)
+      setTwiceClickedCard(card.name)
     }
-    const newArray = gamePlayerArray.map((pl) =>
-      pl.name === player.name ? { ...pl, clicked: true } : pl
+    const newArray = gameCardsArray.map((crd) =>
+      crd.name === card.name ? { ...crd, clicked: true } : crd
     )
 
-    setGamePlayerArray(arrayShuffler(newArray))
+    setGameCardsArray(arrayShuffler(newArray))
     setRound((prevRound) => prevRound + 1)
   }
 
   useEffect(() => {
-    if (gamePlayerArray.every((player) => player.clicked)) {
+    if (gameCardsArray.every((card) => card.clicked)) {
       setWon(true)
     }
-  }, [gamePlayerArray])
+  }, [gameCardsArray])
 
   return (
     <div>
@@ -76,12 +76,12 @@ export default function Cards(props) {
               gridTemplateRows: `repeat(${rows}, 1fr)`,
             }}
           >
-            {gamePlayerArray.map((player) => (
+            {gameCardsArray.map((card) => (
               <Card
-                key={player.name}
-                player={player}
+                key={card.name}
+                card={card}
                 imgWidth={imgWidth}
-                clickHandler={() => cardClickHandler(player)}
+                clickHandler={() => cardClickHandler(card)}
               />
             ))}
           </div>
@@ -89,13 +89,16 @@ export default function Cards(props) {
       ) : lost ? (
         <>
           <p>
-            You lost in round {round}, {twiceClickedPlayer[0].toUpperCase()+twiceClickedPlayer.slice(1)} was clicked once
+            You lost in round {round - 1} ,{" "}
+            {twiceClickedCard[0].toUpperCase() + twiceClickedCard.slice(1)} was
+            clicked once
           </p>
           <button
             onClick={() => {
               setWon(false)
               props.newGame()
               props.cardArrayCleaner()
+              setRound(1)
             }}
             className="another-game"
           >
@@ -110,6 +113,7 @@ export default function Cards(props) {
               setWon(false)
               props.cardArrayCleaner()
               props.newGame()
+              setRound(1)
             }}
             className="another-game"
           >
