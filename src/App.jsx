@@ -13,7 +13,7 @@ export default function App() {
   const cardsFetcher = async () => {
     const arrayToReturn = []
     let randomi = Math.floor(Math.random() * 761) + 1
-    for (let i = randomi; i < randomi + (rowsForGrid * columnsForGrid); i++) {
+    for (let i = randomi; i < randomi + rowsForGrid * columnsForGrid; i++) {
       await fetch(`https://pokeapi.co/api/v2/pokemon/${i}`)
         .then((result) => result.json())
         .then((data) => {
@@ -29,6 +29,17 @@ export default function App() {
     setCardsToPlay(arrayToReturn)
   }
 
+  const colRowHandler = (numstr) => {
+    const num = parseInt(numstr, 10)
+
+    if (num >= 2 && num <= 5) {
+      return num
+    } else if (num < 2) {
+      return 2
+    } else if (num > 5) {
+      return 5
+    }
+  }
   return (
     <>
       <header>
@@ -49,16 +60,16 @@ export default function App() {
           <input
             type="number"
             min={2}
-            max={4}
+            max={5}
             value={rowsForGrid}
-            onChange={(e) => setRowsForGrid(Number(e.target.value))}
+            onChange={(e) => setRowsForGrid(colRowHandler(e.target.value))}
           />
           <input
             type="number"
             min={2}
-            max={4}
+            max={5}
             value={columnsForGrid}
-            onChange={(e) => setColumnsForGrid(Number(e.target.value))}
+            onChange={(e) => setColumnsForGrid(colRowHandler(e.target.value))}
           />
           <br />
           <button
