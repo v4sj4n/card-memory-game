@@ -59,15 +59,11 @@ export default function App() {
           <p>Create your cards grid:</p>
           <input
             type="number"
-            min={2}
-            max={5}
             value={rowsForGrid}
             onChange={(e) => setRowsForGrid(colRowHandler(e.target.value))}
           />
           <input
             type="number"
-            min={2}
-            max={5}
             value={columnsForGrid}
             onChange={(e) => setColumnsForGrid(colRowHandler(e.target.value))}
           />
