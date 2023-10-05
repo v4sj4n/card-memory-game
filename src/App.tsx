@@ -2,15 +2,21 @@ import "./App.css"
 import { useState } from "react"
 import Cards from "./Components/Cards/Cards"
 
+export interface ICard {
+  name: string,
+  cardImage: string,
+  clicked: boolean
+}
+
 export default function App() {
-  const [knowGame, setKnowGame] = useState(false)
-  const [startGame, setStartGame] = useState(false)
-  const [rowsForGrid, setRowsForGrid] = useState(2)
-  const [columnsForGrid, setColumnsForGrid] = useState(2)
-  const [cardsToPlay, setCardsToPlay] = useState([])
+  const [knowGame, setKnowGame] = useState<boolean>(false)
+  const [startGame, setStartGame] = useState<boolean>(false)
+  const [rowsForGrid, setRowsForGrid] = useState<number>(2)
+  const [columnsForGrid, setColumnsForGrid] = useState<number>(2)
+  const [cardsToPlay, setCardsToPlay] = useState<ICard[]>([])
 
   const cardsFetcher = async () => {
-    const arrayToReturn = []
+    const arrayToReturn : ICard[] = []
     let randomi = Math.floor(Math.random() * 752) + 1
     for (let i = randomi; i < randomi + rowsForGrid * columnsForGrid; i++) {
       await fetch(`https://pokeapi.co/api/v2/pokemon/${i}`)
@@ -28,17 +34,18 @@ export default function App() {
     setCardsToPlay(arrayToReturn)
   }
 
-  const colRowHandler = (numstr) => {
-    const num = parseInt(numstr, 10)
+  const colRowHandler = (numstr: string) => {
+    let num = parseInt(numstr, 10)
 
-    if (num >= 2 && num <= 5) {
-      return num
-    } else if (num < 2) {
-      return 2
+    if (isNaN(num) || num < 2) {
+      num = 2
     } else if (num > 5) {
-      return 5
+      num = 5
     }
+
+    return num
   }
+
   return (
     <>
       <header>

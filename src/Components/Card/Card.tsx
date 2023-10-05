@@ -1,5 +1,12 @@
 import "./Card.css"
-export default function Card(props) {
+import { ICard } from "../../App"
+
+export default function Card(props: {
+  key: string
+  card: ICard
+  imgWidth: number
+  clickHandler: () => void
+}) {
   const { name, cardImage } = props.card
   return (
     <div className="single-card" onClick={() => props.clickHandler()}>

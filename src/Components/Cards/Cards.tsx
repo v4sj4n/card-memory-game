@@ -1,17 +1,24 @@
 import "./Cards.css"
 import { useState, useEffect } from "react"
 import Card from "../Card/Card"
+import { ICard } from "../../App"
 
-export default function Cards(props) {
+export default function Cards(props: {
+  cards: ICard[]
+  rows: number
+  cols: number
+  newGame: () => void
+  cardArrayCleaner: () => void
+}) {
   const { cards, cols, rows } = props
 
-  const [gameCardsArray, setGameCardsArray] = useState(cards)
-  const [round, setRound] = useState(1)
-  const [won, setWon] = useState(false)
-  const [lost, setLost] = useState(false)
-  const [twiceClickedCard, setTwiceClickedCard] = useState()
+  const [gameCardsArray, setGameCardsArray] = useState<ICard[]>(cards)
+  const [round, setRound] = useState<number>(1)
+  const [won, setWon] = useState<boolean>(false)
+  const [lost, setLost] = useState<boolean>(false)
+  const [twiceClickedCard, setTwiceClickedCard] = useState<string>("")
 
-  let imgWidth
+  let imgWidth: number
   if (rows === 2) {
     imgWidth = 12
   } else if (rows === 3) {
@@ -20,9 +27,9 @@ export default function Cards(props) {
     imgWidth = 6
   }
 
-  const arrayShuffler = (array) => {
-    let shuffledArray = []
-    let usedIndexes = []
+  const arrayShuffler = (array: ICard[]) => {
+    let shuffledArray: ICard[] = []
+    let usedIndexes: number[] = []
 
     let i = 0
     while (i < array.length) {
@@ -36,7 +43,7 @@ export default function Cards(props) {
     return shuffledArray
   }
 
-  const cardClickHandler = (card) => {
+  const cardClickHandler = (card: ICard) => {
     if (card.clicked) {
       setLost(true)
       setTwiceClickedCard(card.name)
