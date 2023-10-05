@@ -1,7 +1,6 @@
 import "./App.css"
 import { useState } from "react"
 import Cards from "./Components/Cards/Cards"
-import { useEffect } from "react"
 
 export default function App() {
   const [knowGame, setKnowGame] = useState(false)
