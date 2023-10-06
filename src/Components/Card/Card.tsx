@@ -1,21 +1,24 @@
 import "./Card.css"
 import { ICard } from "../../App"
 
-export default function Card(props: {
-  key: string
+export default function Card({
+  card,
+  imgWidth,
+  clickHandler,
+}: {
   card: ICard
   imgWidth: number
   clickHandler: () => void
 }) {
-  const { name, cardImage } = props.card
+  const { name, cardImage } = card
   return (
-    <div className="single-card" onClick={() => props.clickHandler()}>
+    <div className="single-card" onClick={() => clickHandler()}>
       <img
         src={`${cardImage}`}
         alt={name}
         className="undraggable"
         style={{
-          width: `${props.imgWidth}rem`,
+          width: `${imgWidth}rem`,
         }}
       />
     </div>

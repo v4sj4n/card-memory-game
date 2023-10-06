@@ -3,15 +3,19 @@ import { useState, useEffect } from "react"
 import Card from "../Card/Card"
 import { ICard } from "../../App"
 
-export default function Cards(props: {
+export default function Cards({
+  cards,
+  rows,
+  cols,
+  newGame,
+  cardArrayCleaner,
+}: {
   cards: ICard[]
   rows: number
   cols: number
   newGame: () => void
   cardArrayCleaner: () => void
 }) {
-  const { cards, cols, rows } = props
-
   const [gameCardsArray, setGameCardsArray] = useState<ICard[]>(cards)
   const [round, setRound] = useState<number>(1)
   const [won, setWon] = useState<boolean>(false)
@@ -103,8 +107,8 @@ export default function Cards(props: {
           <button
             onClick={() => {
               setWon(false)
-              props.newGame()
-              props.cardArrayCleaner()
+              newGame()
+              cardArrayCleaner()
               setRound(1)
             }}
             className="another-game"
@@ -118,8 +122,8 @@ export default function Cards(props: {
           <button
             onClick={() => {
               setWon(false)
-              props.cardArrayCleaner()
-              props.newGame()
+              cardArrayCleaner()
+              newGame()
               setRound(1)
             }}
             className="another-game"

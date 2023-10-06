@@ -3,8 +3,8 @@ import { useState } from "react"
 import Cards from "./Components/Cards/Cards"
 
 export interface ICard {
-  name: string,
-  cardImage: string,
+  name: string
+  cardImage: string
   clicked: boolean
 }
 
@@ -16,7 +16,7 @@ export default function App() {
   const [cardsToPlay, setCardsToPlay] = useState<ICard[]>([])
 
   const cardsFetcher = async () => {
-    const arrayToReturn : ICard[] = []
+    const arrayToReturn: ICard[] = []
     let randomi = Math.floor(Math.random() * 752) + 1
     for (let i = randomi; i < randomi + rowsForGrid * columnsForGrid; i++) {
       await fetch(`https://pokeapi.co/api/v2/pokemon/${i}`)
