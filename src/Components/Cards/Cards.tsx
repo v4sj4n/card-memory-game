@@ -2,25 +2,23 @@ import "./Cards.css"
 import { useState, useEffect } from "react"
 import Card from "../Card/Card"
 import { ICard } from "../../App"
+import useCardsFetcher from "../../utils/useCardsFetcher"
 
 export default function Cards({
-  cards,
   rows,
   cols,
   newGame,
-  cardArrayCleaner,
 }: {
-  cards: ICard[]
   rows: number
   cols: number
   newGame: () => void
-  cardArrayCleaner: () => void
 }) {
-  const [gameCardsArray, setGameCardsArray] = useState<ICard[]>(cards)
+  const [gameCardsArray, setGameCardsArray] = useState<ICard[]>([])
   const [round, setRound] = useState<number>(1)
   const [won, setWon] = useState<boolean>(false)
   const [lost, setLost] = useState<boolean>(false)
   const [twiceClickedCard, setTwiceClickedCard] = useState<string>("")
+  const { arrayToReturn, error, loading } = useCardsFetcher(rows * cols)
 
   let imgWidth: number
   if (rows === 2) {
@@ -61,10 +59,22 @@ export default function Cards({
   }
 
   useEffect(() => {
-    if (gameCardsArray.every((card) => card.clicked)) {
+    if (!loading && !error) {
+      setGameCardsArray(arrayToReturn)
+    }
+  }, [loading])
+
+  useEffect(() => {
+    if (
+      gameCardsArray.length > 0 &&
+      gameCardsArray.every((card) => card.clicked)
+    ) {
       setWon(true)
     }
   }, [gameCardsArray])
+
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>Encountered an error</p>
 
   return (
     <div>
@@ -108,7 +118,7 @@ export default function Cards({
             onClick={() => {
               setWon(false)
               newGame()
-              cardArrayCleaner()
+              setGameCardsArray([])
               setRound(1)
             }}
             className="another-game"
@@ -122,7 +132,7 @@ export default function Cards({
           <button
             onClick={() => {
               setWon(false)
-              cardArrayCleaner()
+              setGameCardsArray([])
               newGame()
               setRound(1)
             }}

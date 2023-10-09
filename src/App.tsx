@@ -13,26 +13,6 @@ export default function App() {
   const [startGame, setStartGame] = useState<boolean>(false)
   const [rowsForGrid, setRowsForGrid] = useState<number>(2)
   const [columnsForGrid, setColumnsForGrid] = useState<number>(2)
-  const [cardsToPlay, setCardsToPlay] = useState<ICard[]>([])
-
-  const cardsFetcher = async () => {
-    const arrayToReturn: ICard[] = []
-    let randomi = Math.floor(Math.random() * 752) + 1
-    for (let i = randomi; i < randomi + rowsForGrid * columnsForGrid; i++) {
-      await fetch(`https://pokeapi.co/api/v2/pokemon/${i}`)
-        .then((result) => result.json())
-        .then((data) => {
-          arrayToReturn.push({
-            name: data.species.name,
-            cardImage: !data.sprites.front_default
-              ? data.sprites.other["official-artwork"].front_default
-              : data.sprites.front_default,
-            clicked: false,
-          })
-        })
-    }
-    setCardsToPlay(arrayToReturn)
-  }
 
   const colRowHandler = (numstr: string) => {
     let num = parseInt(numstr, 10)
@@ -49,7 +29,9 @@ export default function App() {
   return (
     <>
       <header>
-        <h1>Memory Game</h1>
+        <h1>
+          <a href="/">Memory Game</a>
+        </h1>
       </header>
       {!knowGame ? (
         <div id="explainer">
@@ -77,22 +59,17 @@ export default function App() {
           <button
             onClick={() => {
               setStartGame(true)
-              cardsFetcher()
             }}
           >
             Start game
           </button>
         </div>
-      ) : cardsToPlay.length > 0 ? (
+      ) : (
         <Cards
-          cards={cardsToPlay}
           rows={rowsForGrid}
           cols={columnsForGrid}
           newGame={() => setStartGame(false)}
-          cardArrayCleaner={() => setCardsToPlay([])}
         />
-      ) : (
-        <p>Loading...</p>
       )}
     </>
   )
