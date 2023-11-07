@@ -40,11 +40,15 @@
       }
       return card
     })
-    if (newGrid.every((card) => card.clicked)) {
-      hasWon = true
-    }
+
     round++
     gameGrid = arrayShuffler(newGrid)
+  }
+
+  $: {
+    if (gameGrid.length !== 0 && gameGrid.every((card) => card.clicked)) {
+      hasWon = true
+    }
   }
 
   const newGameHandler = () => {
