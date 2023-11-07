@@ -1,6 +1,7 @@
 <script>
   import Explainer from './lib/Explainer.svelte'
   import GridCreator from './lib/GridCreator.svelte'
+  import { arrayShuffler } from './utils'
 
   let knowGameRules = false
   let createdGrid = false
@@ -12,22 +13,6 @@
   let clickedTwicePlayer
   let hasWon = false
   let round = 1
-
-  const arrayShuffler = (array) => {
-    let shuffledArray = []
-    let usedIndexes = []
-
-    let i = 0
-    while (i < array.length) {
-      const RandNum = Math.floor(Math.random() * array.length)
-      if (!usedIndexes.includes(RandNum)) {
-        shuffledArray.push(array[RandNum])
-        usedIndexes.push(RandNum)
-        i++
-      }
-    }
-    return shuffledArray
-  }
 
   const handleCardClick = (cardName) => {
     const newGrid = gameGrid.map((card) => {
@@ -79,7 +64,7 @@
       <button on:click={newGameHandler}>Play a new game</button>
     </div>
   {:else}
-    <h2>Round {round} out of {cols * rows}</h2>
+    <h2>Round <span>{round}</span> out of <span>{cols * rows}</span></h2>
     <div
       id="cards-grid"
       style="    
@@ -103,6 +88,13 @@
     display: grid;
     place-items: center;
     height: 80svh;
+    & h2 {
+      font-weight: 400;
+      & span {
+        font-weight: bolder !important;
+        font-size: 1.7rem;
+      }
+    }
   }
   #cards-grid {
     display: grid;
