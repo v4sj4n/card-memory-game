@@ -14,7 +14,6 @@ const useCardsFetcher = (size: number) => {
         await fetch(`https://pokeapi.co/api/v2/pokemon/${i}`)
           .then((result) => result.json())
           .then((data) => {
-            console.log(data)
             tempArr.push({
               name: data.species.name,
               cardImage: !data.sprites.front_default
@@ -33,9 +32,7 @@ const useCardsFetcher = (size: number) => {
     }
 
     fetchData()
-    console.log(error())
-    console.log(loading())
-  }, [])
+  })
 
   return { arrayToReturn, error, loading }
 }

@@ -54,7 +54,6 @@ export default function Cards({
     const newArray = gameCardsArray().map((crd) =>
       crd.name === card.name ? { ...crd, clicked: true } : crd
     )
-    console.log(newArray)
     setGameCardsArray(arrayShuffler(newArray))
     setRound((prevRound) => prevRound + 1)
   }
