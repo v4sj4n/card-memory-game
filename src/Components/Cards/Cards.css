@@ -1,0 +1,28 @@
+#cards-grid {
+    display: grid;
+    gap: 1rem;
+    width: 50%;
+    margin: auto;
+}
+
+.another-game {
+    border: none;
+    padding: 1rem 2rem;
+    background-color: #d3d3d3;
+    color: #1f1f1f;
+    border-radius: 0.5rem;
+}
+
+@media (max-width: 800px) {
+    #cards-grid {
+        width: 80%;
+        gap: 0.5rem;
+    }
+}
+
+@media (max-width: 400px) {
+    #cards-grid {
+        width: 100%;
+        gap: 0.25rem;
+    }
+}

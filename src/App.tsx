@@ -1,35 +1,77 @@
-import { createSignal } from 'solid-js'
-import solidLogo from './assets/solid.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { createSignal } from 'solid-js'
 
-function App() {
-  const [count, setCount] = createSignal(0)
+import Cards from './Components/Cards/Cards'
+
+export interface ICard {
+  name: string
+  cardImage: string
+  clicked: boolean
+}
+
+export default function App() {
+  const [knowGame, setKnowGame] = createSignal<boolean>(false)
+  const [startGame, setStartGame] = createSignal<boolean>(false)
+  const [rowsForGrid, setRowsForGrid] = createSignal<number>(2)
+  const [columnsForGrid, setColumnsForGrid] = createSignal<number>(2)
+
+  const colRowHandler = (numstr: string) => {
+    let num = parseInt(numstr, 10)
+
+    if (isNaN(num) || num < 2) {
+      num = 2
+    } else if (num > 5) {
+      num = 5
+    }
+
+    return num
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} class="logo" alt="Vite logo" />
-        </a>
-        <a href="https://solidjs.com" target="_blank">
-          <img src={solidLogo} class="logo solid" alt="Solid logo" />
-        </a>
-      </div>
-      <h1>Vite + Solid</h1>
-      <div class="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count()}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p class="read-the-docs">
-        Click on the Vite and Solid logos to learn more
-      </p>
+      <header>
+        <h1>
+          <a href='/'>Memory Game</a>
+        </h1>
+      </header>
+      {!knowGame() ? (
+        <div id='explainer'>
+          <p>Here&apos;s how the game works:</p>
+          <p>
+            You have to click different cards each round to win the game, <br />{' '}
+            if you click a card you have already clicked you lose...
+          </p>
+          <button onClick={() => setKnowGame(true)}>Continue</button>
+        </div>
+      ) : !startGame() ? (
+        <div id='game-creator'>
+          <p>Create your cards grid:</p>
+          <input
+            type='number'
+            value={rowsForGrid()}
+            onChange={(e) => setRowsForGrid(colRowHandler(e.target.value))}
+          />
+          <input
+            type='number'
+            value={columnsForGrid()}
+            onChange={(e) => setColumnsForGrid(colRowHandler(e.target.value))}
+          />
+          <br />
+          <button
+            onClick={() => {
+              setStartGame(true)
+            }}
+          >
+            Start game
+          </button>
+        </div>
+      ) : (
+        <Cards
+          rows={rowsForGrid()}
+          cols={columnsForGrid()}
+          newGame={() => setStartGame(false)}
+        />
+      )}
     </>
   )
 }
-
-export default App
