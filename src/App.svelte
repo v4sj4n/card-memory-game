@@ -2,6 +2,7 @@
   import Explainer from './lib/Explainer.svelte'
   import GridCreator from './lib/GridCreator.svelte'
   import { arrayShuffler } from './utils'
+  import { blur } from 'svelte/transition'
 
   let knowGameRules = false
 
@@ -87,10 +88,11 @@
   {:else}
     <h2>Round <span>{round}</span> out of <span>{cols * rows}</span></h2>
     <div
+      in:blur={{ amount: 10, duration: 500 }}
+      out:blur={{ amount: 10, duration: 400 }}
       id="cards-grid"
-      style="    
-    grid-template-columns: repeat({cols}, 1fr);
-    grid-template-rows: repeat({rows}, 1fr);"
+      style=" grid-template-columns: repeat({cols}, 1fr);
+      grid-template-rows: repeat({rows}, 1fr);"
     >
       {#each gameGrid as card (card.name)}
         <!-- svelte-ignore a11y-click-events-have-key-events -->
