@@ -1,10 +1,13 @@
 <script>
   export let rows
   export let cols
-  export let createdGrid
+  export let assignedGrid
   export let gameGrid
+  export let isLoading
 
   const createGrid = async () => {
+    assignedGrid = true
+
     let randomi = Math.floor(Math.random() * 752) + 1
     console.log(rows)
     console.log(cols)
@@ -22,7 +25,7 @@
           })
         })
     }
-    createdGrid = true
+    isLoading = false
   }
 
   const colRowHandler = (numstr, type) => {

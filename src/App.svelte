@@ -4,17 +4,22 @@
   import { arrayShuffler } from './utils'
 
   let knowGameRules = false
-  let createdGrid = false
+
+  let assignedGrid = false
 
   let rows = 2
   let cols = 2
   let gameGrid = []
+  let isLoading = true
+
   let hasFailed = false
   let clickedTwicePlayer
+
   let hasWon = false
+
   let round = 1
 
-  const handleCardClick = (cardName) => {
+  const handleCardClick = (/** @type {String} */ cardName) => {
     const newGrid = gameGrid.map((card) => {
       if (card.name == cardName) {
         if (card.clicked) {
@@ -37,20 +42,31 @@
   }
 
   const newGameHandler = () => {
-    createdGrid = false
+    assignedGrid = false
     hasFailed = false
     hasWon = false
     clickedTwicePlayer = ''
     round = 1
     gameGrid = []
+    isLoading = true
   }
 </script>
 
 <main>
   {#if !knowGameRules}
     <Explainer bind:knowGameRules />
-  {:else if !createdGrid}
-    <GridCreator bind:rows bind:cols bind:createdGrid bind:gameGrid />
+  {:else if !assignedGrid}
+    <GridCreator
+      bind:isLoading
+      bind:rows
+      bind:cols
+      bind:assignedGrid
+      bind:gameGrid
+    />
+  {:else if isLoading}
+    <div id="status-grid">
+      <h3>Loading...</h3>
+    </div>
   {:else if hasWon}
     <div id="status-grid">
       <h3>You won</h3>
@@ -60,7 +76,12 @@
   {:else if hasFailed}
     <div id="status-grid">
       <h3>You lost...</h3>
-      <p><span>{clickedTwicePlayer}</span> was clicked once</p>
+      <p>
+        <span
+          >{clickedTwicePlayer[0].toUpperCase() +
+            clickedTwicePlayer.slice(1)}</span
+        > was clicked once
+      </p>
       <button on:click={newGameHandler}>Play a new game</button>
     </div>
   {:else}
@@ -98,8 +119,7 @@
   }
   #cards-grid {
     display: grid;
-    width: 50svh;
-    height: 50svh;
+    /* width: svh; */
     margin-left: auto;
     margin-right: auto;
     gap: 1rem;
