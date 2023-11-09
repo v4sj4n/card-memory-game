@@ -1,5 +1,9 @@
 <script setup lang="ts">
-export interface ICard { }
+export interface ICard {
+  name: string;
+  cardImage: string;
+  clicked: boolean;
+}
 
 import { ref } from 'vue'
 import Cards from "./components/Cards.vue"

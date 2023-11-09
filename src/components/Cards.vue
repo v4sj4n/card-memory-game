@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import Card from './Card.vue';
-import { ICard } from '../App.vue';
 
 const props = defineProps<{ rows: number, cols: number, newGame: () => void }>()
 
@@ -14,7 +13,7 @@ const twiceClickedCard = ref("")
 const fetchData = async () => {
 
   const error = ref<string>('');
-  const data = ref<any>([]);
+  const data = ref<any>();
   const tempArr: any = []
   let randomi = Math.floor(Math.random() * 752) + 1
   for (let i = randomi; i < randomi + (props.cols * props.rows); i++) {
@@ -52,7 +51,7 @@ onMounted(() => {
   handleGameStart()
 })
 
-const arrayShuffler = (array: ICard[]) => {
+const arrayShuffler = (array: any) => {
   let shuffledArray: any = []
   let usedIndexes: number[] = []
 
