@@ -95,12 +95,21 @@
       grid-template-rows: repeat({rows}, 1fr);"
     >
       {#each gameGrid as card (card.name)}
-        <!-- svelte-ignore a11y-click-events-have-key-events -->
-        <!-- svelte-ignore a11y-no-static-element-interactions -->
-        <div on:click={() => handleCardClick(card.name)}>
-          <img src={card.cardImage} class="undraggable" alt={card.name} />
+        <button on:click={() => handleCardClick(card.name)}>
+          <img
+            src={card.cardImage}
+            class="undraggable"
+            alt={card.name}
+            style="width: {cols === 2
+              ? '10rem'
+              : cols === 3
+              ? '8rem'
+              : cols === 4
+              ? '5rem'
+              : '2rem'}"
+          />
           <p>{card.name[0].toUpperCase() + card.name.slice(1)}</p>
-        </div>
+        </button>
       {/each}
     </div>
   {/if}
@@ -173,7 +182,6 @@
   }
 
   .undraggable {
-    user-drag: none;
     user-select: none;
     -moz-user-select: none;
     -webkit-user-drag: none;
