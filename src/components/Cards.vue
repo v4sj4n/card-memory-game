@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watchEffect } from 'vue'
+import { onMounted, ref } from 'vue'
 import Card from './Card.vue';
 import { ICard } from '../App.vue';
 
@@ -48,9 +48,9 @@ const handleGameStart = async () => {
   gameCardsArray.value = data.value
 
 }
-watchEffect(() => {
+onMounted(() => {
   handleGameStart()
-}, [])
+})
 
 const arrayShuffler = (array: ICard[]) => {
   let shuffledArray: any = []
@@ -76,7 +76,7 @@ const cardClickHandler = (card: any) => {
     twiceClickedCard.value = card.name
   }
 
-  const newArray = gameCardsArray.value.map((crd) =>
+  const newArray = gameCardsArray.value.map((crd: any) =>
     crd.name === card.name ? { ...crd, clicked: true } : crd
   )
 

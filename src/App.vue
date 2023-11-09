@@ -10,20 +10,6 @@ const startGame = ref<boolean>(false)
 const rowsForGrid = ref<number>(2)
 const colsForGrid = ref<number>(2)
 
-const colRowHandler = (numstr: string) => {
-  let num = parseInt(numstr, 10)
-
-  if (isNaN(num) || num < 2) {
-    num = 2
-  } else if (num > 5) {
-    num = 5
-  }
-
-  return num
-}
-
-
-
 
 
 </script>
@@ -45,8 +31,8 @@ const colRowHandler = (numstr: string) => {
     </div>
     <div v-if="knowGame && !startGame" id="game-creator">
       <p>Create your cards grid:</p>
-      <input type="number" v-model="rowsForGrid" />
-      <input type="number" v-model="colsForGrid" />
+      <input type="number" :min="2" :max="5" v-model="rowsForGrid" />
+      <input type="number" :min="2" :max="5" v-model="colsForGrid" />
       <br />
       <button v-on:click="startGame = true">Start game</button>
     </div>
@@ -56,64 +42,62 @@ const colRowHandler = (numstr: string) => {
 </template>
 
 <style scoped>
-header {
-  & h1 {
-    & a {
-      font-size: 2.5rem;
-      text-decoration: none;
-      color: white;
-    }
-
-    & a:hover {
-      color: #d3d3d3;
-    }
-  }
+header h1 a {
+  font-size: 2.5rem;
+  text-decoration: none;
+  color: white;
 }
+
+header h1 a:hover {
+  color: #d3d3d3;
+}
+
 
 #explainer {
   display: grid;
   place-content: center;
   height: 70svh;
   text-align: center;
-
-  & p:first-child {
-    font-size: 2rem;
-    margin-bottom: 0;
-    font-weight: 700;
-  }
-
-  & p:nth-child(2) {
-    font-size: 1rem;
-  }
-
-  & button {
-    padding: 1rem 2rem;
-    font-family: Gabarito, sans-serif;
-    font-size: 1.25rem;
-    background-color: #d3d3d3;
-    color: #1f1f1f;
-    border-radius: 8px;
-  }
 }
 
-#game-creator {
-  & input {
-    width: 2rem;
-    padding: 1rem;
-    border-radius: 8px;
-    border: none;
-    margin: 4px;
-  }
+#explainer p:first-child {
+  font-size: 2rem;
+  margin-bottom: 0;
+  font-weight: 700;
+}
 
-  & button {
-    margin-top: 1rem;
-    font-family: Gabarito, sans-serif;
-    font-size: 1.25rem;
-    padding: 1rem 1.1rem;
-    border-radius: 8px;
-    border: none;
-    color: #1f1f1f;
-    background-color: #d3d3d3;
-  }
+#explainer p:nth-child(2) {
+  font-size: 1rem;
+}
+
+#explainer button {
+  padding: 1rem 2rem;
+  font-family: Gabarito, sans-serif;
+  font-size: 1.25rem;
+  background-color: #d3d3d3;
+  color: #1f1f1f;
+  border-radius: 8px;
+}
+
+
+
+#game-creator input {
+  width: 2rem;
+  padding: 1rem;
+  border-radius: 8px;
+  border: none;
+  margin: 4px;
+}
+
+#game-creator button {
+  margin-top: 1rem;
+  font-family: Gabarito, sans-serif;
+  font-size: 1.25rem;
+  padding: 1rem 1.1rem;
+  border-radius: 8px;
+  border: none;
+  color: #1f1f1f;
+  background-color: #d3d3d3;
+
 }
 </style>
