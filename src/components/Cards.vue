@@ -75,12 +75,19 @@ const cardClickHandler = (card: any) => {
     console.log(card)
     twiceClickedCard.value = card.name
   }
+
   const newArray = gameCardsArray.value.map((crd) =>
     crd.name === card.name ? { ...crd, clicked: true } : crd
   )
 
-  gameCardsArray.value = (arrayShuffler(newArray))
-  round.value = round.value + 1
+  if (newArray.every(card => card.clicked)) {
+    won.value = true
+  } else {
+    gameCardsArray.value = (arrayShuffler(newArray))
+    round.value = round.value + 1
+
+  }
+
 
   console.log(gameCardsArray)
 }
@@ -91,14 +98,14 @@ const cardClickHandler = (card: any) => {
 
 <template>
   <div>
-    <div v-if="!lost">
+    <div v-if="!lost && !won">
       <p v-if="round == 1">
         You created a {{ rows }} x {{ cols }} grid, good luck! Round {{ round }} /
         {{ rows * cols }}
       </p>
       <p v-if="round !== 1">Round {{ round }} out of {{ cols * rows }}</p>
 
-      <div :style="{
+      <div id="cards-grid" :style="{
         display: `grid`, gridTemplateColumns: `repeat(${cols}, 1fr)`, gridTemplateRows: `repeat(${rows}, 1fr)`
       }">
 
@@ -118,8 +125,33 @@ const cardClickHandler = (card: any) => {
 </template>
 
 <style scoped>
-.read-the-docs {
-  color: #888;
+#cards-grid {
+  display: grid;
+  gap: 1rem;
+  width: 50%;
+  margin: auto;
+}
+
+.another-game {
+  border: none;
+  padding: 1rem 2rem;
+  background-color: #d3d3d3;
+  color: #1f1f1f;
+  border-radius: 0.5rem;
+}
+
+@media (max-width: 800px) {
+  #cards-grid {
+    width: 80%;
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 400px) {
+  #cards-grid {
+    width: 100%;
+    gap: 0.25rem;
+  }
 }
 </style>
 
