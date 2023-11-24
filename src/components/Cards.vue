@@ -10,30 +10,31 @@ const lost = ref(false)
 const won = ref(false)
 const twiceClickedCard = ref("")
 
+const fetchPokemon = async (id: Number) => {
+  const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
+  const data = await response.json()
+  return {
+    name: data.species.name,
+    cardImage: !data.sprites.front_default
+      ? data.sprites.other["official-artwork"].front_default
+      : data.sprites.front_default,
+    clicked: false,
+  }
+}
 const fetchData = async () => {
 
   const error = ref<string>('');
+  const promisesArray: any = []
   const data = ref<any>();
-  const tempArr: any = []
   let randomi = Math.floor(Math.random() * 752) + 1
   for (let i = randomi; i < randomi + (props.cols * props.rows); i++) {
-    await fetch(`https://pokeapi.co/api/v2/pokemon/${i}`)
-      .then((result) => result.json())
-      .then((data) => {
-        tempArr.push({
-          name: data.species.name,
-          cardImage: !data.sprites.front_default
-            ? data.sprites.other["official-artwork"].front_default
-            : data.sprites.front_default,
-          clicked: false,
-        })
-      })
-      .catch((err) => {
-        error.value = err
-      })
+    promisesArray.push(fetchPokemon(i))
   }
-  data.value = tempArr
-
+  try {
+    data.value = await Promise.all(promisesArray)
+  } catch (err: any) {
+    error.value = err.message
+  }
   return { data, error }
 }
 
@@ -108,7 +109,7 @@ const cardClickHandler = (card: any) => {
         display: `grid`, gridTemplateColumns: `repeat(${cols}, 1fr)`, gridTemplateRows: `repeat(${rows}, 1fr)`
       }">
 
-        <Card v-for="card in   gameCardsArray" :card="card" :clickHandler="() => cardClickHandler(card)" />
+        <Card v-for="card in gameCardsArray" :card="card" :clickHandler="() => cardClickHandler(card)" />
       </div>
     </div>
     <div v-if="lost">
