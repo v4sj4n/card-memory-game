@@ -5,6 +5,17 @@
   export let gameGrid
   export let isLoading
 
+  const fetchPokemon = async (id) => {
+    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
+    const data = await response.json()
+    return {
+      name: data.species.name,
+      cardImage: !data.sprites.front_default
+        ? data.sprites.other['official-artwork'].front_default
+        : data.sprites.front_default,
+      clicked: false,
+    }
+  }
   const createGrid = async () => {
     assignedGrid = true
 
@@ -12,20 +23,20 @@
     console.log(rows)
     console.log(cols)
     let size = rows * cols
+
+    const fetchPromises = []
+
     for (let i = randomi; i < randomi + size; i++) {
-      await fetch(`https://pokeapi.co/api/v2/pokemon/${i}`)
-        .then((result) => result.json())
-        .then((data) => {
-          gameGrid.push({
-            name: data.species.name,
-            cardImage: !data.sprites.front_default
-              ? data.sprites.other['official-artwork'].front_default
-              : data.sprites.front_default,
-            clicked: false,
-          })
-        })
+      fetchPromises.push(fetchPokemon(i))
     }
-    isLoading = false
+    try {
+      const results = await Promise.all(fetchPromises)
+      gameGrid.push(...results)
+      isLoading = false
+    } catch (err) {
+      throw new Error(err)
+      isLoading = false
+    }
   }
 
   const colRowHandler = (numstr, type) => {

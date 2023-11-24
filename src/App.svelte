@@ -103,10 +103,10 @@
             style="width: {cols === 2
               ? '10rem'
               : cols === 3
-              ? '8rem'
-              : cols === 4
-              ? '5rem'
-              : '2rem'}"
+                ? '8rem'
+                : cols === 4
+                  ? '5rem'
+                  : '2rem'}"
           />
           <p>{card.name[0].toUpperCase() + card.name.slice(1)}</p>
         </button>
@@ -130,10 +130,13 @@
   }
   #cards-grid {
     display: grid;
-    /* width: svh; */
     margin-left: auto;
     margin-right: auto;
     gap: 1rem;
+
+    & button {
+      cursor: pointer;
+    }
     & div {
       cursor: pointer;
       border: 2px solid #d3d3d3;
