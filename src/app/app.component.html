@@ -1,31 +1,47 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Card Memory - Angular</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Card Memory - Angular</title>
-</head>
-
-<body>
-  <main class="flex justify-center mt-10 md:mt-20">
-    @if (!knowTheGame()) {
-    <app-intro (toggleKnowTheGame)="toggleKnowTheGame()"></app-intro>
-
-    }
-    @else if (knowTheGame() && !startGame()) {
-    <app-grid-maker [columnsForGrid]="columnsForGrid()" [rowsForGrid]="rowsForGrid()"
-      (columnsForGridChange)="columnsForGrid.set($event)" (rowsForGridChange)="rowsForGrid.set($event)"
-      (toggleStartTheGame)="toggleStartGame()">
-      ></app-grid-maker>
-    }
-    @else{
-    <app-grid-game [columnsForGrid]="columnsForGrid()" [rowsForGrid]="rowsForGrid()" />
-    }
-
-  </main>
-
-
-</body>
-
+  <body>
+    <main class="flex justify-center mt-10 md:mt-20">
+      @if (!knowTheGame()) {
+        <app-intro (toggleKnowTheGame)="toggleKnowTheGame()" />
+      } @else if (knowTheGame() && !startGame()) {
+        <app-grid-maker
+          [columnsForGrid]="columnsForGrid()"
+          [rowsForGrid]="rowsForGrid()"
+          (columnsForGridChange)="columnsForGrid.set($event)"
+          (rowsForGridChange)="rowsForGrid.set($event)"
+          (toggleStartTheGame)="toggleStartGame()"
+        />
+      } @else if (!wonGame() && !lostGame()) {
+        <app-grid-game
+          [columnsForGrid]="columnsForGrid()"
+          [rowsForGrid]="rowsForGrid()"
+          (loseGame)="loseGame()"
+          (winGame)="winGame()"
+        />
+      } @else if (wonGame()) {
+        <app-won-game
+          [columnsForGrid]="columnsForGrid()"
+          [rowsForGrid]="rowsForGrid()"
+          (columnsForGridChange)="columnsForGrid.set($event)"
+          (rowsForGridChange)="rowsForGrid.set($event)"
+          (playAgain)="playAgain()"
+        />
+      } @else {
+        <app-lost-game
+          [columnsForGrid]="columnsForGrid()"
+          [rowsForGrid]="rowsForGrid()"
+          (columnsForGridChange)="columnsForGrid.set($event)"
+          (rowsForGridChange)="rowsForGrid.set($event)"
+          (playAgain)="playAgain()"
+        />
+      }
+    </main>
+  </body>
 </html>

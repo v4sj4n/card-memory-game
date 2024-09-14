@@ -1,19 +1,19 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-grid-maker',
+  selector: 'app-won-game',
   standalone: true,
   imports: [],
-  templateUrl: './grid-maker.component.html',
+  templateUrl: './won-game.component.html',
 })
-export class GridMakerComponent {
+export class WonGameComponent {
   @Input() rowsForGrid!: number;
   @Input() columnsForGrid!: number;
 
   @Output() rowsForGridChange = new EventEmitter<number>();
   @Output() columnsForGridChange = new EventEmitter<number>();
 
-  @Output() toggleStartTheGame = new EventEmitter<void>();
+  @Output() playAgain = new EventEmitter<void>();
 
   changeRows(event: Event) {
     const target = event.target as HTMLInputElement;
@@ -26,7 +26,7 @@ export class GridMakerComponent {
     this.columnsForGridChange.emit(this.columnsForGrid);
   }
 
-  emitToggleStartTheGame() {
-    this.toggleStartTheGame.emit();
+  emitTogglePlayAgain() {
+    this.playAgain.emit();
   }
 }

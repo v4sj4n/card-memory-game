@@ -1,5 +1,18 @@
-<p>grid-game works!</p>
-
-@for (card of cards(); track $index) {
-<p>{{card.name}}</p>
-}
+<p class="my-10 text-2xl font-bold">
+  Clicked on {{ touchedCards() }} out of {{ columnsForGrid * rowsForGrid }}
+</p>
+<div
+  class="min-w-fit gap-8 max-w-2xl md:max-w-7xl grid"
+  [style.grid-template-columns]="'repeat(' + columnsForGrid + ', 1fr)'"
+  [style.grid-template-rows]="'repeat(' + rowsForGrid + ', 1fr)'"
+>
+  @for (card of cards(); track $index) {
+    <div
+      (click)="onClick(card)"
+      class="hover:scale-110 hover:text-zinc-700 hover:cursor-pointer hover:bg-gray-300 hover:border-2 rounded-md"
+    >
+      <img class="sm:" src="{{ card.cardImage }}" alt="" />
+      <p>{{ card.name }}</p>
+    </div>
+  }
+</div>
