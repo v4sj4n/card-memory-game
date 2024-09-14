@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Card Memory - Angular</title>
+</head>
+
+<body>
+  <main class="flex justify-center mt-10 md:mt-20">
+    <app-intro *ngIf="!knowTheGame" (toggleKnowTheGame)="toggleKnowTheGame()"></app-intro>
+    <app-grid-maker *ngIf="knowTheGame && !startGame" [columnsForGrid]="columnsForGrid" [rowsForGrid]="rowsForGrid"
+      (columnsForGridChange)="columnsForGrid = $event" (rowsForGridChange)="rowsForGrid = $event">
+      ></app-grid-maker>
+  </main>
+
+
+</body>
+
+</html>
