@@ -9,10 +9,20 @@
 
 <body>
   <main class="flex justify-center mt-10 md:mt-20">
-    <app-intro *ngIf="!knowTheGame" (toggleKnowTheGame)="toggleKnowTheGame()"></app-intro>
-    <app-grid-maker *ngIf="knowTheGame && !startGame" [columnsForGrid]="columnsForGrid" [rowsForGrid]="rowsForGrid"
-      (columnsForGridChange)="columnsForGrid = $event" (rowsForGridChange)="rowsForGrid = $event">
+    @if (!knowTheGame()) {
+    <app-intro (toggleKnowTheGame)="toggleKnowTheGame()"></app-intro>
+
+    }
+    @else if (knowTheGame() && !startGame()) {
+    <app-grid-maker [columnsForGrid]="columnsForGrid()" [rowsForGrid]="rowsForGrid()"
+      (columnsForGridChange)="columnsForGrid.set($event)" (rowsForGridChange)="rowsForGrid.set($event)"
+      (toggleStartTheGame)="toggleStartGame()">
       ></app-grid-maker>
+    }
+    @else{
+    <app-grid-game [columnsForGrid]="columnsForGrid()" [rowsForGrid]="rowsForGrid()" />
+    }
+
   </main>
 
 

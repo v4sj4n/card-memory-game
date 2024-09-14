@@ -14,6 +14,8 @@ export class GridMakerComponent {
   @Output() rowsForGridChange = new EventEmitter<number>();
   @Output() columnsForGridChange = new EventEmitter<number>();
 
+  @Output() toggleStartTheGame = new EventEmitter<void>();
+
   changeRows(event: Event) {
     const target = event.target as HTMLInputElement;
     this.rowsForGrid = Number(target.value);
@@ -23,5 +25,9 @@ export class GridMakerComponent {
     const target = event.target as HTMLInputElement;
     this.columnsForGrid = Number(target.value);
     this.columnsForGridChange.emit(this.columnsForGrid);
+  }
+
+  emitToggleStartTheGame() {
+    this.toggleStartTheGame.emit();
   }
 }
